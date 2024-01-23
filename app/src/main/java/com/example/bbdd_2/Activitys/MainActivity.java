@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.bbdd_2.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnAnadir, btnConsulta, btnELiminar;
+    private Button btnBuscar;
+    private EditText textID;
 
 
     @Override
@@ -19,17 +22,20 @@ public class MainActivity extends AppCompatActivity {
 
         loadElements();
 
-        btnAnadir.setOnClickListener(e->{
+        btnBuscar.setOnClickListener(e->{
+            if (textID.getText().toString().equals("1")){
+
+
+            }
+
 
         });
 
     }
 
     private void loadElements() {
-        btnAnadir= findViewById(R.id.btnAnadir);
-        btnConsulta = findViewById(R.id.btnConsulta);
-        btnELiminar = findViewById(R.id.btnEliminar);
-
+        btnBuscar = findViewById(R.id.btnBuscar);
+        textID= findViewById(R.id.textID);
     }
 
 

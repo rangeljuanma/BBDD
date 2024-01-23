@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.bbdd_2.R;
 
-public class EliminarActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eliminar);
+        setContentView(R.layout.activity_admin);
     }
 }
