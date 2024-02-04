@@ -155,4 +155,21 @@ public class BDAdaptador {
         return empleado;
     }
 
+    public void modifyPhoneEmployee(int id, String phone) {
+        String update = "UPDATE "+this.T_EMPLEADOS
+                +" SET telefono =?"
+                +" WHERE _id = ?";
+        String[] parameters = {phone,String.valueOf(id)};
+
+        baseDatos.getWritableDatabase().execSQL(update,parameters);
+    }
+
+    public void modifyEmail(int id, String email) {
+        String update = "UPDATE "+this.T_EMPLEADOS
+                +" SET email =?"
+                +" WHERE _id = ?";
+        String[] parameters = {email,String.valueOf(id)};
+
+        baseDatos.getWritableDatabase().execSQL(update,parameters);
+    }
 }
