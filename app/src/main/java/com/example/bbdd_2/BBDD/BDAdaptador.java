@@ -8,12 +8,18 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.bbdd_2.BBDD.BaseDatos;
+import com.example.bbdd_2.models.Empleado;
+
+import java.time.Clock;
+import java.util.List;
 
 public class BDAdaptador {
     private Context contexto;
     private BaseDatos baseDatos;
     private SQLiteDatabase bd;
-
+    private final String T_EMPLEADOS = "empleados";
+    private final String T_DEPARTAMENTOS = "departamentos";
+;
     public BDAdaptador(Context c) {
         //Almacenamos el contexto
         contexto = c;
@@ -38,7 +44,7 @@ public class BDAdaptador {
 
     public String findByid(String id){
 
-        String query = "Select nombre from alumnos where _id=?";
+        String query = "Select nombre from "+this.T_EMPLEADOS+" where _id=?";
         String[] parameter = {id};
         String nombre = "";
         Cursor cursor=null;
@@ -58,6 +64,95 @@ public class BDAdaptador {
             }
         }
         return nombre;
+    }
+
+    public void showEmpleados(){
+        String query = "Select * from empleados;" ;
+        Cursor cursor = null;
+        try{
+            cursor = baseDatos.getReadableDatabase().rawQuery(query,null);
+            while(cursor.moveToNext()){
+                String nombre= cursor.getString(1);
+                int depa= cursor.getInt(2);
+                Toast.makeText(contexto,nombre +" "+ depa, Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        catch (Exception e){
+
+        }
+        finally {
+            cursor.close();;
+        }
+    }
+
+
+    public boolean isIn (int id){
+        String query = "Select _id from empleados;" ;
+        int _id =0;
+        Cursor cursor=null;
+        try {
+            cursor = baseDatos.getReadableDatabase().rawQuery(query, null);
+            while(cursor.moveToNext()) {
+                _id = cursor.getInt(0);
+                Log.i("lista",""+_id);
+                if(_id==id){
+                    return true;
+                }
+            }
+        }
+        catch (Exception e){
+            Toast.makeText(contexto, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        finally {
+            if (cursor != null){
+                cursor.close();
+            }
+        }
+        return false;
+    }
+
+    public void insertarLista(List<String>nombres) {
+
+        //Abrimos la BD en modo lectura/escritura
+        bd = baseDatos.getWritableDatabase();
+        //Preparamos la información a insertar
+        ContentValues contentValues = new ContentValues();
+        nombres.stream()
+                        .forEach((nombre)->{
+                            contentValues.put("nombre", nombre);
+                            //Insertarmos los datos. Recogemos el resultado
+                            long resultado = bd.insert("almacen", null, contentValues);
+                        });
+        //Cerramos la BD
+        bd.close();
+    }
+
+    public Empleado findAllById(int id) {
+        Empleado empleado = null;
+        String query = "Select e.nombre, d.nombre from "+this.T_EMPLEADOS+" e, "+this.T_DEPARTAMENTOS+" d where e._id=?";
+        String[] parameter = {String.valueOf(id)};
+        String nombre, departamento;
+        Cursor cursor=null;
+        try {
+            cursor = baseDatos.getReadableDatabase().rawQuery(query, parameter);
+            nombre = "";
+            departamento = "";
+            if (cursor.moveToNext()) {
+                nombre = cursor.getString(0);
+                departamento = cursor.getString(1);
+                empleado = new Empleado(id,nombre, departamento);
+            }
+        }
+        catch (Exception e){
+            Toast.makeText(contexto, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        finally {
+            if (cursor != null){
+                cursor.close();
+            }
+        }
+        return empleado;
     }
 
 }

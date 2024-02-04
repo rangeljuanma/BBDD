@@ -11,11 +11,16 @@ package com.example.bbdd_2.BBDD;
 public class BaseDatos extends SQLiteOpenHelper {
     Context contexto;
     private static BaseDatos baseDeDatos;
+    private final String T_EMPLEADOS ="empleados";
+    private final String T_DEPARTAMENTO ="departamentos";
+    private final static int version = 5;
+
+
 
     //Constructor
     private BaseDatos(Context context) {
         //Pasamos al constructor de la superclase el contexto, el nombre de la BD y la Versión
-        super(context,"BD", null, 1);
+        super(context,"BD", null, version);
         //Almacenamos el contexto
         contexto=context;
     }
@@ -33,10 +38,27 @@ public class BaseDatos extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             //Creamos la tabla
-            db.execSQL("CREATE TABLE almacen " +
+
+
+            db.execSQL("CREATE TABLE " + this.T_DEPARTAMENTO +
+                    "(_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "nombre TEXT)");
+
+            db.execSQL("CREATE TABLE "+ this.T_EMPLEADOS+
                     "(_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "nombre VARCHAR);");
+                    "nombre TEXT," +
+                    "id_departamento INTEGER," +
+                    "telefono TEXT," +
+                    "email TEXT," +
+                    "FOREIGN KEY('id_departamento') REFERENCES "+this.T_DEPARTAMENTO+"(_id));");
+
+        db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('matematicas');");
+        db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('lengua');");
+        db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('ingles');");
+        db.execSQL("INSERT INTO "+ this.T_EMPLEADOS +"(nombre, id_departamento,telefono,email) VALUES('Santiago Miguez Cea',1,'659120492', 'santiagomiguezcea@gmail.com'),('david beltran',2, '612934016', 'davidbeltranesperilla@gmail.com')");
+
         }
+
         catch (SQLException e){
             //Mensaje de error si no se ha ejecutado correctamente
             Toast.makeText(contexto,""+e,Toast.LENGTH_SHORT).show();
@@ -49,7 +71,8 @@ public class BaseDatos extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             //Eliminamos la tabla anterior (si existe)
-            db.execSQL("DROP TABLE IF EXISTS alumnos");
+            db.execSQL("DROP TABLE IF EXISTS " + this.T_EMPLEADOS);
+            db.execSQL("DROP TABLE IF EXISTS " + this.T_DEPARTAMENTO);
             //Llamamos a onCreate para que cree la tabla con las nuevas especificaciones
             onCreate(db);
         }
