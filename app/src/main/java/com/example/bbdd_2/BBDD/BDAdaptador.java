@@ -130,9 +130,10 @@ public class BDAdaptador {
 
     public Empleado findAllById(int id) {
         Empleado empleado = null;
-        String query = "Select e.nombre, d.nombre from "+this.T_EMPLEADOS+" e, "+this.T_DEPARTAMENTOS+" d where e._id=?";
+        String query = "Select e.nombre, d.nombre, e.email, e.telefono, e.salario from "+this.T_EMPLEADOS+" e, "+this.T_DEPARTAMENTOS+" d where e._id=?";
         String[] parameter = {String.valueOf(id)};
-        String nombre, departamento;
+        String nombre, departamento, email, telefono;
+        Float salario;
         Cursor cursor=null;
         try {
             cursor = baseDatos.getReadableDatabase().rawQuery(query, parameter);
@@ -141,7 +142,10 @@ public class BDAdaptador {
             if (cursor.moveToNext()) {
                 nombre = cursor.getString(0);
                 departamento = cursor.getString(1);
-                empleado = new Empleado(id,nombre, departamento);
+                email = cursor.getString(2);
+                telefono = cursor.getString(3);
+                salario = cursor.getFloat(4);
+                empleado = new Empleado(id,nombre, departamento,telefono, email, salario);
             }
         }
         catch (Exception e){

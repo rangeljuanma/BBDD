@@ -14,7 +14,7 @@ import com.example.bbdd_2.R;
 import com.example.bbdd_2.models.Empleado;
 
 public class UserActivity extends AppCompatActivity {
-    TextView nombreText, idText, departamentoText, phoneText, emailText;
+    TextView nombreText, idText, departamentoText, phoneText, emailText, salarioText;
     BDAdaptador bd;
     Empleado empleado;
     Button modifyEmail, modifyPhone, saveEmail, savePhone;
@@ -30,7 +30,11 @@ public class UserActivity extends AppCompatActivity {
         empleado=bd.findAllById(id);
         putEmpleadoText(empleado);
 
+        modifyUser(id);
 
+    }
+
+    private void modifyUser(int id) {
         modifyPhone.setOnClickListener(e->{
             setPhoneUpdateVisible();
         });
@@ -47,8 +51,6 @@ public class UserActivity extends AppCompatActivity {
             bd.modifyEmail(id,emailEditText.getText().toString());
             setEmailUpdateInvisible();
         });
-
-
     }
 
     private void setEmailUpdateVisible() {
@@ -75,6 +77,9 @@ public class UserActivity extends AppCompatActivity {
         idText.setText(String.valueOf(empleado.getId()));
         nombreText.setText(empleado.getNombre());
         departamentoText.setText(empleado.getDepartamento());
+        phoneText.setText(empleado.getTelefono());
+        emailText.setText(empleado.getEmail());
+        salarioText.setText(String.valueOf(empleado.getSalario()));
     }
 
     private void loadElements() {
@@ -90,6 +95,7 @@ public class UserActivity extends AppCompatActivity {
         emailEditText= findViewById(R.id.emailEditText);
         phoneText= findViewById(R.id.phoneText);
         emailText= findViewById(R.id.emailText);
+        salarioText = findViewById(R.id.salarioText);
 
 
 

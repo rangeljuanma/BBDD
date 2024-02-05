@@ -5,6 +5,7 @@ package com.example.bbdd_2.BBDD;
         import android.database.SQLException;
         import android.database.sqlite.SQLiteDatabase;
         import android.database.sqlite.SQLiteOpenHelper;
+        import android.util.Log;
         import android.widget.Toast;
 
 //Crear una clase que extienda de SQLiteOpenHelper
@@ -13,7 +14,7 @@ public class BaseDatos extends SQLiteOpenHelper {
     private static BaseDatos baseDeDatos;
     private final String T_EMPLEADOS ="empleados";
     private final String T_DEPARTAMENTO ="departamentos";
-    private final static int version = 5;
+    private final static int version =10;
 
 
 
@@ -50,18 +51,22 @@ public class BaseDatos extends SQLiteOpenHelper {
                     "id_departamento INTEGER," +
                     "telefono TEXT," +
                     "email TEXT," +
+                    "salario DECIMAL(7,2)," +
                     "FOREIGN KEY('id_departamento') REFERENCES "+this.T_DEPARTAMENTO+"(_id));");
 
-        db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('matematicas');");
-        db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('lengua');");
-        db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('ingles');");
-        db.execSQL("INSERT INTO "+ this.T_EMPLEADOS +"(nombre, id_departamento,telefono,email) VALUES('Santiago Miguez Cea',1,'659120492', 'santiagomiguezcea@gmail.com'),('david beltran',2, '612934016', 'davidbeltranesperilla@gmail.com')");
+            db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('matematicas');");
+            db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('lengua');");
+            db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('ingles');");
+            db.execSQL("INSERT INTO "+ this.T_EMPLEADOS +"(nombre, id_departamento,telefono,email,salario) " +
+                    "VALUES('Santiago Miguez Cea',1,'659120492', 'santiagomiguezcea@gmail.com', 1345.53)," +
+                          "('david beltran',2, '612934016', 'davidbeltranesperilla@gmail.com', 1925.45)");
 
         }
 
         catch (SQLException e){
             //Mensaje de error si no se ha ejecutado correctamente
-            Toast.makeText(contexto,""+e,Toast.LENGTH_SHORT).show();
+            Toast.makeText(contexto,""+e,Toast.LENGTH_LONG).show();
+            Log.e("error",e.getMessage());
         }
     }
 
@@ -78,7 +83,7 @@ public class BaseDatos extends SQLiteOpenHelper {
         }
         catch (SQLException e){
             //Mensaje de error si no se ha ejecutado correctamente
-            Toast.makeText(contexto,""+e,Toast.LENGTH_SHORT).show();
+            Toast.makeText(contexto,""+e,Toast.LENGTH_LONG).show();
         }
 
     }
