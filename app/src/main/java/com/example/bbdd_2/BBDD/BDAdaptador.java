@@ -182,7 +182,7 @@ public class BDAdaptador {
         List<Empleado> empleados = new ArrayList<>();
         bd = baseDatos.getWritableDatabase();
 
-        String query = "SELECT e.id, e.nombre, d.nombre, e.email, e.telefono, e.salario from "+this.T_EMPLEADOS+" e, "+this.T_DEPARTAMENTOS+" d where d._id=? AND d._id == e.id_departamento";
+        String query = "SELECT e._id, e.nombre, d.nombre, e.email, e.telefono, e.salario from "+this.T_EMPLEADOS+" e, "+this.T_DEPARTAMENTOS+" d where d._id=? AND d._id == e.id_departamento";
         String[] parameter = {String.valueOf(idDepart)};
         Cursor cursor;
         cursor = bd.rawQuery(query,parameter);
@@ -223,6 +223,29 @@ public class BDAdaptador {
 
 
         return empleados;
+
+    }
+
+    public void increase10() {
+        bd = baseDatos.getWritableDatabase();
+        String update = "UPDATE "+this.T_EMPLEADOS
+                +" SET salario = (salario+salario*0.1)";
+        bd.execSQL(update);
+
+        bd.close();;
+
+    }
+
+    public void eliminarEmpleado(String id) {
+
+        bd=baseDatos.getWritableDatabase();
+        String query = "DELETE FROM "+this.T_EMPLEADOS
+                +" WHERE _id = ?;";
+        String[] parameter = {id};
+        bd.execSQL(query,parameter);
+
+
+        bd.close();
 
     }
 }

@@ -1,6 +1,7 @@
 package com.example.bbdd_2.RecyclerView;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +31,17 @@ public class RVDepartamento extends RecyclerView.Adapter<RVDepartamento.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-         View parten = mInflater.inflate(R.layout.recycler_view_item, parent,false);
+         View parten = mInflater.inflate(R.layout.recycler_view_item_depa, parent,false);
          return new ViewHolder(parten);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         Empleado em = mData.get(position);
-        holder.nombreTextRec.setText(em.getNombre());
-        holder.depaTextRec.setText(String.valueOf(em.getSalario()));
+        Log.i("locura", em.getNombre());
+        holder.nombreTextRecDepa.setText(em.getNombre());
+        holder.depaTextRec.setText(em.getDepartamento());
     }
 
     @Override
@@ -48,11 +51,11 @@ public class RVDepartamento extends RecyclerView.Adapter<RVDepartamento.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView nombreTextRec, depaTextRec;
+        TextView nombreTextRecDepa, depaTextRec;
 
         ViewHolder (View view){
             super(view);
-            nombreTextRec = view.findViewById(R.id.nombreTextoDep);
+            nombreTextRecDepa = view.findViewById(R.id.nombreTextoDep);
             depaTextRec = view.findViewById(R.id.depaRecycler);
             view.setOnClickListener(this);
 

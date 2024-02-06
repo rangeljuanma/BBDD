@@ -14,7 +14,8 @@ public class BaseDatos extends SQLiteOpenHelper {
     private static BaseDatos baseDeDatos;
     private final String T_EMPLEADOS ="empleados";
     private final String T_DEPARTAMENTO ="departamentos";
-    private final static int version =11;
+    private final static int version =15
+            ;
 
 
 
@@ -59,7 +60,12 @@ public class BaseDatos extends SQLiteOpenHelper {
             db.execSQL("INSERT INTO "+ this.T_DEPARTAMENTO +"(nombre) VALUES('ingles');");
             db.execSQL("INSERT INTO "+ this.T_EMPLEADOS +"(nombre, id_departamento,telefono,email,salario) " +
                     "VALUES('Santiago Miguez Cea',1,'659120492', 'santiagomiguezcea@gmail.com', 1345.53)," +
-                          "('david beltran',2, '612934016', 'davidbeltranesperilla@gmail.com', 1925.45)");
+                          "('david beltran',2, '612934016', 'davidbeltranesperilla@gmail.com', 1925.45)," +
+                        "('Manu Curado',3,'659120492', 'manu@hotmail.com', 1345.53)," +
+                        "('Felix putero',1,'659120492', 'felix@gmail.es', 1345.53)," +
+                    "('elena',2,'659120492', 'elena@gmail.com', 1345.53)," +
+                    "('inma',3,'659120492', 'inma@gmail.com', 1345.53);");
+
 
         }
 
