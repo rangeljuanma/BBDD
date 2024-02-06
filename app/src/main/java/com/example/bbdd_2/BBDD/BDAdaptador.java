@@ -11,6 +11,7 @@ import com.example.bbdd_2.BBDD.BaseDatos;
 import com.example.bbdd_2.models.Empleado;
 
 import java.time.Clock;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BDAdaptador {
@@ -175,5 +176,53 @@ public class BDAdaptador {
         String[] parameters = {email,String.valueOf(id)};
 
         baseDatos.getWritableDatabase().execSQL(update,parameters);
+    }
+
+    public List<Empleado> findAllByDepartamento(int idDepart) {
+        List<Empleado> empleados = new ArrayList<>();
+        bd = baseDatos.getWritableDatabase();
+
+        String query = "SELECT e.id, e.nombre, d.nombre, e.email, e.telefono, e.salario from "+this.T_EMPLEADOS+" e, "+this.T_DEPARTAMENTOS+" d where d._id=? AND d._id == e.id_departamento";
+        String[] parameter = {String.valueOf(idDepart)};
+        Cursor cursor;
+        cursor = bd.rawQuery(query,parameter);
+
+        while(cursor.moveToNext()) {
+            empleados.add(new Empleado(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getFloat(5)));
+        }
+
+
+        bd.close();
+
+
+        return empleados;
+
+    } public List<Empleado> findAll() {
+        List<Empleado> empleados = new ArrayList<>();
+        bd = baseDatos.getWritableDatabase();
+        String query = "SELECT e._id, e.nombre, d.nombre, e.email, e.telefono, e.salario from "+this.T_EMPLEADOS+" e, "+this.T_DEPARTAMENTOS+" d where e.id_departamento= d._id";
+        Cursor cursor;
+        cursor = bd.rawQuery(query,null);
+
+        while(cursor.moveToNext()) {
+            empleados.add(new Empleado(
+            cursor.getInt(0),
+            cursor.getString(1),
+            cursor.getString(2),
+            cursor.getString(3),
+            cursor.getString(4),
+            cursor.getFloat(5)));
+            }
+        bd.close();
+
+
+        return empleados;
+
     }
 }

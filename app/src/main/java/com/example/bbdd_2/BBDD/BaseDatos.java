@@ -14,7 +14,7 @@ public class BaseDatos extends SQLiteOpenHelper {
     private static BaseDatos baseDeDatos;
     private final String T_EMPLEADOS ="empleados";
     private final String T_DEPARTAMENTO ="departamentos";
-    private final static int version =10;
+    private final static int version =11;
 
 
 
